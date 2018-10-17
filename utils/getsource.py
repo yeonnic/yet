@@ -44,7 +44,7 @@ def view_source(data):
 
 def getbalance(address):
     result = ''
-    apikey = 'NDJAPAKY51T122AJFWGVD3TGZVUVYKBFXY'
+    apikey = ''
     m= 'account'
     action = 'balance'
 
@@ -60,7 +60,7 @@ def sourceget(address):
     '''
     result = ''
     source = ''
-    apikey = 'NDJAPAKY51T122AJFWGVD3TGZVUVYKBFXY'
+    apikey = ''
     m= 'contract'
     action = 'getsourcecode'
 

@@ -1,6 +1,26 @@
 import yet
+import pickle
 
-source = open("test.sol", "r").read(10000000)
+sources = pickle.load(open("./db/source_list"))
+addr_list = sources.keys()
+
+for i in range(len(addr_list)):
+    print addr_list[i], 
+    try:
+        a = yet.tree(None, sources[addr_list[i]])
+
+        print ' Owner :',
+
+        for i in a.owner.keys():
+            print a.owner[i][0] + '() ' + a.owner[i][1]['name'] + ',',
+    except Exception as e:
+        pass
+        #print 'error!'
+    print ''
+
+''' 
+for i in 
+
 compiled = yet.solc.compile_source(source)
 ast = compiled[compiled.keys()[0]]['ast']
 
@@ -16,6 +36,7 @@ for i in b.function_list:
 print ''
 
 print b.owner
+'''
 
 
 '''

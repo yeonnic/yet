@@ -9,6 +9,8 @@ import utils.getsource as gs
 class tree:
     def __init__(self, ast=None, source_ = None):
         if(ast == None and len(source_) > 0):
+            #source_ = re.sub('pragma.+[\n]', '', source_)
+            #print source_
             compiled = solc.compile_source(source_)
             self.ast = compiled[compiled.keys()[0]]['ast']
         else:
@@ -24,7 +26,7 @@ class tree:
         self.get_function_list(self.ast)
         self.get_modifier_list(self.ast)
         for i in self.function_list+self.modifier_list:
-            self.search_only_owner_check(i)
+            self.search_owner_variable(i, i['attributes']['name'])
 
     def get_global_variables(self):
         self.global_variables = contract_global_variable_list(self.ast)
@@ -54,8 +56,7 @@ class tree:
     def get_ifstatment_list(self, function_list):
         print 'get_ifstatment_list called!'
 
-
-    def search_only_owner_check(self, ast):
+    def search_owner_variable(self, ast, name):
 
         if ast['name'] == 'FunctionCall' :
             try:
@@ -69,8 +70,8 @@ class tree:
                                     if children2[i]['name'] == 'Identifier':
                                         try:
                                             refer_id = children2[i]['attributes']['referencedDeclaration']
-                                            self.owner[refer_id] = self.global_variables[refer_id]
-                                            print ast['src']
+                                            self.owner[refer_id] = [name, self.global_variables[refer_id]]
+                                            #print ast['src']
                                         except:
                                             #print 'no refer'
                                             pass
@@ -84,7 +85,7 @@ class tree:
         try:
             if len(ast['children']) > 0:
                 for i in ast['children']:
-                    self.search_only_owner_check(i)
+                    self.search_owner_variable(i, name)
         except Exception as e:
             #print 'search_only_owner_check error N00',e
             #error_source(self.source, ast)
@@ -153,5 +154,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-a = solc.compile_source(open("./test.sol", "r").read(1000000))['<stdin>:Owned']['ast']
-b = tree(a)
