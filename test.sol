@@ -56,7 +56,11 @@ contract test is Owned{
     emit Transfer(msg.sender, _to, amount);
   }
 
-  function mint(address _to, uint256 amount) onlyOwner public{ //fuck regx
+  function mint(address _to, uint256 amount) onlyOwner external{
+    mint_(_to, amount);
+  }
+
+  function mint_(address _to, uint256 amount) internal { //fuck regx
     balance[_to] += amount;
 
     emit Transfer(address(0), _to, amount);

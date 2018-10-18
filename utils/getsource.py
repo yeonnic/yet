@@ -44,7 +44,7 @@ def view_source(data):
 
 def getbalance(address):
     result = ''
-    apikey = ''
+    apikey = open("~/workspace/contract/ether_scan_api.key", "r").read(1000)
     m= 'account'
     action = 'balance'
 

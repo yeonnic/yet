@@ -4,6 +4,7 @@ import pickle
 sources = pickle.load(open("./db/source_list"))
 addr_list = sources.keys()
 
+'''
 for i in range(len(addr_list)):
     print addr_list[i], 
     try:
@@ -12,19 +13,17 @@ for i in range(len(addr_list)):
         print ' Owner :',
 
         for i in a.owner.keys():
-            print a.owner[i][0] + '() ' + a.owner[i][1]['name'] + ',',
+            print i+ '() ' + a.owner[i][1]['name'] + ',',
     except Exception as e:
         pass
         #print 'error!'
     print ''
+'''
 
-''' 
-for i in 
-
-compiled = yet.solc.compile_source(source)
+compiled = yet.solc.compile_source(open("./test.sol").read(100000))
 ast = compiled[compiled.keys()[0]]['ast']
 
-b = yet.tree(None, source)
+b = yet.tree(ast)
 
 print 'modifier list'
 for i in b.modifier_list:
@@ -35,8 +34,10 @@ for i in b.function_list:
     print i['attributes']['name']
 print ''
 
+for i in b.public_function_list:
+    print i['attributes']['name']
+
 print b.owner
-'''
 
 
 '''

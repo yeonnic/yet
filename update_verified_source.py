@@ -27,7 +27,8 @@ def main():
     for i in range(start_idx, end_idx):
         #l = vp.verified_contract_list()
         print str(i)
-        if(i % 100):
+        if(i % 100 == 0):
+            print 'save point!'
             with open('./db/source_list', 'wb') as f:
                 pickle.dump(sources, f)
                 f.close()

@@ -27,6 +27,24 @@ class tree:
         self.get_modifier_list(self.ast)
         for i in self.function_list+self.modifier_list:
             self.search_owner_variable(i, i['attributes']['name'])
+        self.function_and_modifier_list = self.function_list + self.modifier_list
+
+        tmp = self.function_list + self.modifier_list
+        remove_idx_list = {}
+        owner_function_list = self.owner.keys()
+        for i in range(len(tmp)):
+            for j in owner_function_list:
+                if tmp[i]['attributes']['name'] == j:
+                    remove_idx_list[i] = True
+
+        for i in remove_idx_list.keys():
+            del tmp[i]
+        self.tmp = tmp
+        for i in range(len(tmp)):
+            get_public_function_list(tmp[i])
+
+        
+        self.public_function_list = tmp
 
     def get_global_variables(self):
         self.global_variables = contract_global_variable_list(self.ast)
@@ -70,7 +88,7 @@ class tree:
                                     if children2[i]['name'] == 'Identifier':
                                         try:
                                             refer_id = children2[i]['attributes']['referencedDeclaration']
-                                            self.owner[refer_id] = [name, self.global_variables[refer_id]]
+                                            self.owner[name] = [refer_id, self.global_variables[refer_id]]
                                             #print ast['src']
                                         except:
                                             #print 'no refer'
@@ -90,6 +108,18 @@ class tree:
             #print 'search_only_owner_check error N00',e
             #error_source(self.source, ast)
             pass
+    def get_public_functions(self, ast, name):
+
+        if ast['name'] == 'ModifierInvocation':
+            
+
+#        if ast['name'] == 'ModifierInvocation':
+#            for i in ast['children']:
+#                i['name'] == 'Identifier':
+#                    try:
+#                        self.i['attributes']['name'] 
+
+
 
 def error_source(source, ast):
     if(source != None):
